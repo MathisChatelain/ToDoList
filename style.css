@@ -1,0 +1,66 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-size: 1em;
+    font-family: 'Comic Sans','Cambria', 'Cochin', Georgia, Times, 'Times New Roman',sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+ul {
+    width :90%;
+}
+li {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 0px;
+}
+
+label {
+    padding: 5px;
+    margin: 10px 0px;
+}
+
+button {
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+#toDoInput {
+    height:2em;
+    padding-left: 2em;
+    padding-right: 2em;
+    width:60%;
+    margin-bottom: 1em;
+}
+
+.cross {
+    width: 30px;
+    height: 30px;
+    background-image: url("images/crossmark.png");
+    background-size: cover;
+    background-position: center;
+    margin: 0 1em;
+}
+
+.checkboxFalse {
+    width: 30px;
+    height: 30px;
+    background-image: url("images/checkmarkFalse.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.checkboxTrue {
+    width: 30px;
+    height: 30px;
+    background-image: url("images/checkmarkTrue.png");
+    background-size: cover;
+    background-position: center;
+}
