@@ -11,6 +11,7 @@ class ToDoList{
 
             // On ecoute les clicks sur la checkbox, comme c'est une méthode on utilise ()=> pour l'appeller
             nouvelleTache.children[0].addEventListener('click',() => this.checkboxSwap(nouvelleTache.children[0]));
+            nouvelleTache.children[0].addEventListener('touchstart',() => this.checkboxSwap(nouvelleTache.children[0])); // pour mobile
             
             // nouvelleTache.children[1] correspond à la croix pour supprimer
             nouvelleTache.children[1].addEventListener('click',() => this.removeToDo(nouvelleTache));
@@ -60,15 +61,15 @@ class ToDoList{
         let cible = document.getElementById("toDoContainer");
         
         //Comme on enregistre des taches dans localStorage il suffit de relancer la partie affichage de addToDo
-        // for(let index in values){ a voir
         for (var i = 0; i < localStorage.length; i++) {
             let tache = localStorage.key(i);
               
-            // let tache = values[index]; a voir
             let nouvelleTache = document.createElement("li");
             nouvelleTache.innerHTML = "<div class='checkboxFalse'></div><div class='cross'></div><p>"+tache+"</p>" ;
             
             nouvelleTache.children[0].addEventListener('click',() => this.checkboxSwap(nouvelleTache.children[0]));
+            nouvelleTache.children[0].addEventListener('touchstart',() => this.checkboxSwap(nouvelleTache.children[0]));
+            
             nouvelleTache.children[1].addEventListener('click',() => this.removeToDo(nouvelleTache));
             
             cible.appendChild(nouvelleTache);
