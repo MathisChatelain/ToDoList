@@ -1,4 +1,5 @@
 function mobilecheck() {
+    // Renvoie true quand l'utilisateur est sur Mobile et false sinon
     return (typeof window.orientation !== "undefined") 
       || (navigator.userAgent.indexOf('IEMobile') !== -1
       );
@@ -6,9 +7,18 @@ function mobilecheck() {
 
 class ToDoList{
 
+    // Cette fonction ajoute une ToDo à la ToDoList, met en place les eventListeners et appelle  l'enregistrement des ToDo en mémoire
     static addToDo(){
         
-        var tache = document.getElementById("toDoInput").value;
+        // Récupération de l'input puis vérification de securité basique anti-chevrons
+        var unsafeTache = document.getElementById("toDoInput").value;
+        let tache='';
+        for(let index in unsafeTache){
+            let carac = unsafeTache[index];
+            if(carac !== '<' && carac !== '>'){
+                tache += carac;
+            }
+        }
         
         if (typeof(tache)=="string" && tache.length>0 ){  
             
@@ -42,6 +52,7 @@ class ToDoList{
         }
     }
 
+    // Inverse l'état d'une checkbox donnée en argument
     static checkboxSwap(checkbox){
         let tache = checkbox.parentElement.children[2].innerHTML; // tache associée à cette checkbox
         
@@ -61,12 +72,14 @@ class ToDoList{
         }
     }
 
+    // Supprime une ToDo à la fois du DOM et du LocalStorage
     static removeToDo(elem){
         let tacheASupprimer = elem.children[2].innerHTML; // l'intérieur du paragraphe <p>tache</p>
         localStorage.removeItem(tacheASupprimer); 
         elem.parentElement.removeChild(elem);
     }
 
+    // Permet de charger les éléments en mémoire, doit être appelée au chargement de la page
     static loadStorage() {
         let cible = document.getElementById("toDoContainer");
         
@@ -100,11 +113,11 @@ class ToDoList{
     }
 }
 
-// Ajout ToDo par 'click'
+// Ajout ToDo par 'click' sur le bouton ajouter
 const eltAjout = document.getElementById('ajout');
 eltAjout.addEventListener('click', ToDoList.addToDo);
 
-// Ajout ToDo par 'enter'
+// Ajout ToDo par 'enter' après la saisie d'au moins un caractére
 document.addEventListener('keydown', logKey);
 function logKey(e) {
   if(e.key == 'Enter'){
