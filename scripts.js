@@ -1,3 +1,9 @@
+function mobilecheck() {
+    return (typeof window.orientation !== "undefined") 
+      || (navigator.userAgent.indexOf('IEMobile') !== -1
+      );
+};
+
 class ToDoList{
 
     static addToDo(){
@@ -10,18 +16,22 @@ class ToDoList{
             nouvelleTache.innerHTML = "<div class='checkboxFalse'></div><div class='cross'></div><p>"+tache+"</p>" ;
 
             // On ecoute les clicks sur la checkbox, comme c'est une méthode on utilise ()=> pour l'appeller
-            nouvelleTache.children[0].addEventListener('click',() => this.checkboxSwap(nouvelleTache.children[0]));
-            nouvelleTache.children[0].addEventListener('touchstart',() => this.checkboxSwap(nouvelleTache.children[0])); // pour mobile
-            
-            // nouvelleTache.children[1] correspond à la croix pour supprimer
-            nouvelleTache.children[1].addEventListener('click',() => this.removeToDo(nouvelleTache));
+            if(mobilecheck()){ //-Mobile
+            nouvelleTache.children[0].addEventListener('touchstart',() => ToDoList.checkboxSwap(nouvelleTache.children[0]));
+            nouvelleTache.children[1].addEventListener('touchstart',() => ToDoList.removeToDo(nouvelleTache));
+            }
+            else{
+            // nouvelleTache.children[1] correspond à la croix pour supprimer - PC
+            nouvelleTache.children[0].addEventListener('click',() => ToDoList.checkboxSwap(nouvelleTache.children[0]));
+            nouvelleTache.children[1].addEventListener('click',() => ToDoList.removeToDo(nouvelleTache));
+            }
 
             let cible = document.getElementById("toDoContainer");
             
             cible.appendChild(nouvelleTache);
 
             // Processus d'enregistrement dans le localStorage
-            localStorage.setItem(tache,"unChecked"); // enregistre l'élément en tant que son id
+            localStorage.setItem(tache,"unChecked"); // l'id des propriétées de la tache est le nom de la tache
             
             document.getElementById("toDoInput").value = '';
 
@@ -67,14 +77,19 @@ class ToDoList{
             let nouvelleTache = document.createElement("li");
             nouvelleTache.innerHTML = "<div class='checkboxFalse'></div><div class='cross'></div><p>"+tache+"</p>" ;
             
-            nouvelleTache.children[0].addEventListener('click',() => this.checkboxSwap(nouvelleTache.children[0]));
-            nouvelleTache.children[0].addEventListener('touchstart',() => this.checkboxSwap(nouvelleTache.children[0]));
-            
-            nouvelleTache.children[1].addEventListener('click',() => this.removeToDo(nouvelleTache));
+            if(mobilecheck()){ //-Mobile
+                nouvelleTache.children[0].addEventListener('touchstart',() => ToDoList.checkboxSwap(nouvelleTache.children[0]));
+                nouvelleTache.children[1].addEventListener('touchstart',() => ToDoList.removeToDo(nouvelleTache));
+                }
+                else{
+                // nouvelleTache.children[1] correspond à la croix pour supprimer - PC
+                nouvelleTache.children[0].addEventListener('click',() => ToDoList.checkboxSwap(nouvelleTache.children[0]));
+                nouvelleTache.children[1].addEventListener('click',() => ToDoList.removeToDo(nouvelleTache));
+            }
             
             cible.appendChild(nouvelleTache);
 
-            // Load l'etat de la checkbox
+            // Charge l'etat en mémoire de la checkbox
             if(localStorage.getItem(tache) == "Checked"){
                 nouvelleTache.children[0].className = 'checkboxTrue';
             }
@@ -85,11 +100,11 @@ class ToDoList{
     }
 }
 
-// Ajout par click
+// Ajout ToDo par 'click'
 const eltAjout = document.getElementById('ajout');
 eltAjout.addEventListener('click', ToDoList.addToDo);
 
-// Ajout par enter
+// Ajout ToDo par 'enter'
 document.addEventListener('keydown', logKey);
 function logKey(e) {
   if(e.key == 'Enter'){
@@ -101,4 +116,5 @@ function logKey(e) {
 // Chargement des anciennes ToDo
 window.onload = ()=>ToDoList.loadStorage();
 
+// Nettoyage de LocalStorage
 // localStorage.clear();
